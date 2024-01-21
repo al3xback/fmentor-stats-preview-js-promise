@@ -20,157 +20,198 @@ const createElement = (tag, className, text, attributes) => {
 };
 
 const createHeaderEl = () => {
-	const headerEl = createElement('header');
+	return new Promise((resolve, reject) => {
+		if (typeof createElement === 'undefined') {
+			reject(new Error('createElement is not defined!'));
+		} else {
+			const headerEl = createElement('header');
 
-	const headerTitleEl = createElement(
-		'h1',
-		'sr-only',
-		'Stats preview card component'
-	);
+			const headerTitleEl = createElement(
+				'h1',
+				'sr-only',
+				'Stats preview card component'
+			);
 
-	headerEl.appendChild(headerTitleEl);
+			headerEl.appendChild(headerTitleEl);
 
-	return headerEl;
+			resolve(headerEl);
+		}
+	});
 };
 
 const createCardEl = () => {
-	const cardEl = createElement('article', 'card');
+	return new Promise((resolve, reject) => {
+		if (typeof createElement === 'undefined') {
+			reject(new Error('createElement is not defined!'));
+		} else if (typeof createElementAttribute === 'undefined') {
+			reject(new Error('createElementAttribute is not defined!'));
+		} else {
+			const cardEl = createElement('article', 'card');
 
-	/* card image */
-	const cardImageWrapperEl = createElement('div', 'card__image');
+			/* card image */
+			const cardImageWrapperEl = createElement('div', 'card__image');
 
-	const cardImageInnerEl = createElement('div', 'card__image-inner');
+			const cardImageInnerEl = createElement('div', 'card__image-inner');
 
-	const cardImageEl = createElement('img', null, null, [
-		createElementAttribute('src', './images/meeting.jpg'),
-		createElementAttribute('alt', ''),
-	]);
+			const cardImageEl = createElement('img', null, null, [
+				createElementAttribute('src', './images/meeting.jpg'),
+				createElementAttribute('alt', ''),
+			]);
 
-	cardImageInnerEl.appendChild(cardImageEl);
+			cardImageInnerEl.appendChild(cardImageEl);
 
-	cardImageWrapperEl.appendChild(cardImageInnerEl);
+			cardImageWrapperEl.appendChild(cardImageInnerEl);
 
-	/* card content */
-	const cardContentEl = createElement('div', 'card__content');
+			/* card content */
+			const cardContentEl = createElement('div', 'card__content');
 
-	/* card title */
-	const cardTitleEl = createElement('h2', 'card__title', 'Get ');
+			/* card title */
+			const cardTitleEl = createElement('h2', 'card__title', 'Get ');
 
-	const cardTitleSpanEl = createElement('mark', null, 'insight');
+			const cardTitleSpanEl = createElement('mark', null, 'insight');
 
-	cardTitleEl.append(cardTitleSpanEl, ' that help your business grow.');
+			cardTitleEl.append(
+				cardTitleSpanEl,
+				' that help your business grow.'
+			);
 
-	/* card description */
-	const cardDescriptionEl = createElement(
-		'p',
-		'card__desc',
-		'Discover the benefits of data analytics and make better decisions regarding revenue, customer experience, and overall efficiency.'
-	);
+			/* card description */
+			const cardDescriptionEl = createElement(
+				'p',
+				'card__desc',
+				'Discover the benefits of data analytics and make better decisions regarding revenue, customer experience, and overall efficiency.'
+			);
 
-	/* card statuses */
-	const cardStatusListEl = createElement('ul', 'card__stats-list');
+			/* card statuses */
+			const cardStatusListEl = createElement('ul', 'card__stats-list');
 
-	const cardStatuses = [
-		{
-			label: 'Companies',
-			amount: '10K+',
-		},
-		{
-			label: 'Templates',
-			amount: '314',
-		},
-		{
-			label: 'Queries',
-			amount: '12M+',
-		},
-	];
+			const cardStatuses = [
+				{
+					label: 'Companies',
+					amount: '10K+',
+				},
+				{
+					label: 'Templates',
+					amount: '314',
+				},
+				{
+					label: 'Queries',
+					amount: '12M+',
+				},
+			];
 
-	for (const status of cardStatuses) {
-		const cardStatusItemEl = createElement('li', 'card__stats-list-item');
+			for (const status of cardStatuses) {
+				const cardStatusItemEl = createElement(
+					'li',
+					'card__stats-list-item'
+				);
 
-		const cardStatusItemAmountEl = createElement(
-			'span',
-			'num',
-			status.amount
-		);
+				const cardStatusItemAmountEl = createElement(
+					'span',
+					'num',
+					status.amount
+				);
 
-		const cardStatusItemTextEl = createElement(
-			'span',
-			'label',
-			status.label
-		);
+				const cardStatusItemTextEl = createElement(
+					'span',
+					'label',
+					status.label
+				);
 
-		cardStatusItemEl.appendChild(cardStatusItemAmountEl);
-		cardStatusItemEl.appendChild(cardStatusItemTextEl);
+				cardStatusItemEl.appendChild(cardStatusItemAmountEl);
+				cardStatusItemEl.appendChild(cardStatusItemTextEl);
 
-		cardStatusListEl.appendChild(cardStatusItemEl);
-	}
+				cardStatusListEl.appendChild(cardStatusItemEl);
+			}
 
-	cardContentEl.appendChild(cardTitleEl);
-	cardContentEl.appendChild(cardDescriptionEl);
-	cardContentEl.appendChild(cardStatusListEl);
+			cardContentEl.appendChild(cardTitleEl);
+			cardContentEl.appendChild(cardDescriptionEl);
+			cardContentEl.appendChild(cardStatusListEl);
 
-	cardEl.appendChild(cardImageWrapperEl);
-	cardEl.appendChild(cardContentEl);
+			cardEl.appendChild(cardImageWrapperEl);
+			cardEl.appendChild(cardContentEl);
 
-	return cardEl;
+			resolve(cardEl);
+		}
+	});
 };
 
 const createMainEl = () => {
-	const mainEl = createElement('main');
+	return new Promise((resolve, reject) => {
+		if (typeof createElement === 'undefined') {
+			reject(new Error('createElement is not defined!'));
+		} else {
+			const mainEl = createElement('main');
 
-	const mainContainerEl = createElement('div', 'container');
+			const mainContainerEl = createElement('div', 'container');
 
-	const cardEl = createCardEl();
+			createCardEl()
+				.then((el) => {
+					mainContainerEl.appendChild(el);
 
-	mainContainerEl.appendChild(cardEl);
+					mainEl.appendChild(mainContainerEl);
 
-	mainEl.appendChild(mainContainerEl);
-
-	return mainEl;
+					resolve(mainEl);
+				})
+				.catch((err) => {
+					reject(err);
+				});
+		}
+	});
 };
 
 const createFooterEl = () => {
-	const footerEl = createElement('footer');
+	return new Promise((resolve, reject) => {
+		if (typeof createElement === 'undefined') {
+			reject(new Error('createElement is not defined!'));
+		} else if (typeof createElementAttribute === 'undefined') {
+			reject(new Error('createElementAttribute is not defined!'));
+		} else {
+			const footerEl = createElement('footer');
 
-	const footerContainerEl = createElement('div', 'container');
+			const footerContainerEl = createElement('div', 'container');
 
-	const footerTextEl = createElement('p', null, 'Challenge by ');
+			const footerTextEl = createElement('p', null, 'Challenge by ');
 
-	const footerTextLinkCreatorEl = createElement(
-		'a',
-		'btn btn--link',
-		'Frontend Mentor',
-		[
-			createElementAttribute(
-				'href',
-				'https://www.frontendmentor.io?ref=challenge'
-			),
-			createElementAttribute('rel', 'noopener'),
-			createElementAttribute('target', '_blank'),
-		]
-	);
+			const footerTextLinkCreatorEl = createElement(
+				'a',
+				'btn btn--link',
+				'Frontend Mentor',
+				[
+					createElementAttribute(
+						'href',
+						'https://www.frontendmentor.io?ref=challenge'
+					),
+					createElementAttribute('rel', 'noopener'),
+					createElementAttribute('target', '_blank'),
+				]
+			);
 
-	const footerTextLinkCoderEl = createElement(
-		'a',
-		'btn btn--link',
-		'al3xback',
-		[
-			createElementAttribute('href', 'https://github.com/al3xback'),
-			createElementAttribute('rel', 'noopener'),
-			createElementAttribute('target', '_blank'),
-		]
-	);
+			const footerTextLinkCoderEl = createElement(
+				'a',
+				'btn btn--link',
+				'al3xback',
+				[
+					createElementAttribute(
+						'href',
+						'https://github.com/al3xback'
+					),
+					createElementAttribute('rel', 'noopener'),
+					createElementAttribute('target', '_blank'),
+				]
+			);
 
-	footerTextEl.appendChild(footerTextLinkCreatorEl);
-	footerTextEl.append('. Coded by ');
-	footerTextEl.appendChild(footerTextLinkCoderEl);
+			footerTextEl.appendChild(footerTextLinkCreatorEl);
+			footerTextEl.append('. Coded by ');
+			footerTextEl.appendChild(footerTextLinkCoderEl);
 
-	footerContainerEl.appendChild(footerTextEl);
+			footerContainerEl.appendChild(footerTextEl);
 
-	footerEl.appendChild(footerContainerEl);
+			footerEl.appendChild(footerContainerEl);
 
-	return footerEl;
+			resolve(footerEl);
+		}
+	});
 };
 
 export { createHeaderEl, createMainEl, createFooterEl };
